@@ -2,6 +2,7 @@ package com.example.matthewkay.calculator;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 String current = calc.getText().toString();
                 if (current.equals("0")) {
                     calc.setText("8");
-                } else {
+                } else if(current.equals("8")) {
                     current += "8";
                     calc.setText(current);
                 }
@@ -205,53 +206,58 @@ public class MainActivity extends AppCompatActivity {
         });
         plus.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                if(div == false && mult ==false && sub == false && add ==false) {
+
                     val1 = Double.parseDouble(calc.getText().toString());
                     calc.setText("");
                     div = false;
                     mult = false;
                     sub = false;
                     add = true;
-                }
+
             }
         });
         minus.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                if(div == false && mult ==false && sub == false && add ==false) {
+
+                System.out.println(div);
+                System.out.println(mult);
+                System.out.println(sub);
+                System.out.println(add);
+
                     val1 = Double.parseDouble(calc.getText().toString());
                     calc.setText("");
                     div = false;
                     mult = false;
                     sub = true;
                     add = false;
-                }
+
 
             }
         });
         multiply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(div == false && mult ==false && sub == false && add ==false) {
+
                     val1 = Double.parseDouble(calc.getText().toString());
                     calc.setText("");
                     div = false;
                     mult = true;
                     sub = false;
                     add = false;
-                }
+
             }
         });
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(div == false && mult ==false && sub == false && add ==false) {
+
                     val1 = Double.parseDouble(calc.getText().toString());
                     calc.setText("");
                     div = true;
                     mult = false;
                     sub = false;
                     add = false;
-                }
+
             }
         });
 
@@ -263,6 +269,7 @@ public class MainActivity extends AppCompatActivity {
                 val2 = Double.parseDouble(calc.getText().toString());
                 num = calc(val1, val2);
                 calc.setText(Double.toString(num));
+
             }
         });
 
@@ -291,8 +298,36 @@ public class MainActivity extends AppCompatActivity {
         return finnum;
 
 
+
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putDouble("val1", val1);
+        savedInstanceState.putDouble("val2", val2);
+        savedInstanceState.putBoolean("add", add);
+        savedInstanceState.putBoolean("sub",sub);
+        savedInstanceState.putBoolean("div", div);
+        savedInstanceState.putBoolean("mult", mult);
+        savedInstanceState.putString("calc", String.valueOf(calc.getText()));
+
+
     }
 
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        val1 = savedInstanceState.getDouble("val1");
+        val2 = savedInstanceState.getDouble("val2");
+        add = savedInstanceState.getBoolean("add");
+        sub = savedInstanceState.getBoolean("sub");
+        mult = savedInstanceState.getBoolean("mult");
+        div = savedInstanceState.getBoolean("div");
+
+
+        calc.setText(savedInstanceState.getString("calc"));
+
+
+    }
 
 
 
